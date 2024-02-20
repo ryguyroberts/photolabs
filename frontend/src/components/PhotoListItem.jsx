@@ -6,20 +6,20 @@ import "../styles/PhotoListItem.scss";
 const PhotoListItem = (props) => {
   /* Insert React */
   return(
-    <div id={props.id} className="PhotoListItem">
-      <img src={props.photo.imageSource}/>
-      <img src={props.photo.profile}/>
-      <p>
-        {props.photo.username}
-      </p>
-      <p>
-        {props.photo.location.city}, {props.photo.location.country}
-      </p>
+    <div id={props.photo.id} className="photo-list__item">
+      <img className="photo-list__image" src={props.photo.imageSource}/>
+      <div className="photo-list__user-details">
+        <img className="photo-list__user-profile" src={props.photo.profile}/>
+          <p className="photo-list__user-info">
+            {props.photo.username}
+            <br />
+            <span className="photo-list__user-location">
+              {props.photo.location.city}, {props.photo.location.country}
+            </span>
+          </p>
+      </div>
     </div>
   )
 };
 
 export default PhotoListItem;
-
-
-{/* <img class="profile__image" src="./profile-hex.png" /> */}
