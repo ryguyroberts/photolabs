@@ -1,6 +1,7 @@
 import React, { useReducer } from 'react';
 import './App.scss';
 import PhotoList from 'components/PhotoList';
+import TopicList from 'components/TopicList';
 
 // initialState 
 const initialState = {
@@ -50,6 +51,7 @@ const App = () => {
 
   return (
     <div className="App">
+      <TopicList />
       <PhotoList setLikeHandler={setLikeHandler} state={state}/>
     </div>
   );
