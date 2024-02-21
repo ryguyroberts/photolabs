@@ -1,8 +1,7 @@
 import React, { useReducer } from 'react';
 import './App.scss';
-import PhotoList from 'components/PhotoList';
-import TopicList from 'components/TopicList';
-import TopNavigation from 'components/TopNavigationBar';
+import HomeRoute from 'routes/HomeRoute';
+
 
 // initialState 
 const initialState = {
@@ -52,8 +51,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <TopNavigation />
-      <PhotoList setLikeHandler={setLikeHandler} state={state}/>
+      <HomeRoute setLikeHandler={setLikeHandler} state={state}/>
     </div>
   );
 };
