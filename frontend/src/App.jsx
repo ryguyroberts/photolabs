@@ -2,6 +2,7 @@ import React, { useReducer } from 'react';
 import './App.scss';
 import PhotoList from 'components/PhotoList';
 import TopicList from 'components/TopicList';
+import TopNavigation from 'components/TopNavigationBar';
 
 // initialState 
 const initialState = {
@@ -51,7 +52,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <TopicList />
+      <TopNavigation />
       <PhotoList setLikeHandler={setLikeHandler} state={state}/>
     </div>
   );
