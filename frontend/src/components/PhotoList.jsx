@@ -56,15 +56,16 @@ const sampleDataForPhotoList = [
     },
   },
   
+  
 ];
 
-const PhotoList = () => {
+const PhotoList = ({state, setLikeHandler}) => {
 
   const listPhotoItems = (photoArr) => {
-    return photoArr.map((photo, idx) => {
+    return photoArr.map((photo) => {
       return (
-        <li key={idx} className="photo-list">
-          <PhotoListItem photo={photo} />
+        <li key={photo.id} className="photo-list">
+          <PhotoListItem photo={photo} setLikeHandler={setLikeHandler} state={state}/>
         </li>
       );
     })

@@ -1,37 +1,56 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import './App.scss';
 import PhotoList from 'components/PhotoList';
 
+// initialState 
+const initialState = {
+  photos: [
+    { id: "1", like: false },
+    { id: "2", like: false },
+    { id: "3", like: false },
+  ]
+}
 
+// reducer Function
 
-// const sampleDataForPhotoListItem = {
-//   id: "1",
-//   location: {
-//     city: "Montreal",
-//     country: "Canada",
-//   },
-//   imageSource: `${process.env.PUBLIC_URL}/Image-1-Regular.jpeg`,
-//   username: "Joe Example",
-//   profile: `${process.env.PUBLIC_URL}/profile-1.jpg`,
-// };
-
+const reducer = (state, action) => {
+  if (action.type === 'like-photo') {
+    const { photoId } = action.payload;
+    return {
+      ...state,
+        photos: state.photos.map((photo) => {
+          if (photo.id === photoId) {
+            return {
+              ...photo,
+              like: !photo.like
+            };
+          }
+          return photo;
+        })
+    }
+  }
+  return state;
+};
 
 
 // Note: Rendering a single component to build components in isolation
 const App = () => {
-  // for now just a iterating loop
-  // const createPhotos = (loops) => {
-  //   let photoArr = [];
-  //   for (let i = 1; i <= loops; i++) {
-  //     photoArr.push(<PhotoListItem key={i} photo={sampleDataForPhotoListItem}/>)
-  //   }
-  //   return photoArr;
-  // }
+  const [state, dispatch] = useReducer(reducer, initialState)
+
+  // Helpers to pass down
+  const setLikeHandler = (photoId) => {
+    dispatch({
+      type: 'like-photo',
+      payload: {
+        photoId: photoId
+      }
+    });
+  }
+
 
   return (
     <div className="App">
-
-      <PhotoList />
+      <PhotoList setLikeHandler={setLikeHandler} state={state}/>
     </div>
   );
 };
