@@ -10,13 +10,16 @@ const PhotoDetailsModal = ({toggleModal, state, setLikeHandler, photos}) => {
 
   const photo = state.selectedPhoto
 
-  const displaySimiliar = () => {
-    // Not an array at first
-    const similiarPhotos = Object.values(photo.similar_photos).map((simPhoto) => (
-      <PhotoListItem key={simPhoto.id} photo={simPhoto} setLikeHandler={setLikeHandler} state={state} toggleModal={toggleModal}/>
-    ));
-    return similiarPhotos;
-  }
+  // const displaySimiliar = () => {
+  //   // Not an array at first
+  //   const similiarPhotos = Object.values(photo.similar_photos).map((simPhoto) => (
+  //     // just pass to photo list lol
+  //     <PhotoList photos={Object.values(photo.similar_photos)}/>
+  //     // Object.values(photo.similar_photos)
+  //     // <PhotoListItem key={simPhoto.id} photo={simPhoto} setLikeHandler={setLikeHandler} state={state} toggleModal={toggleModal}/>
+  //   ));
+  //   return similiarPhotos;
+  // }
 
 
 
@@ -41,11 +44,11 @@ const PhotoDetailsModal = ({toggleModal, state, setLikeHandler, photos}) => {
         <span className='photo-details-modal__header'>
           <br />
           Similiar Photos
-        </span>
-        <div className='photo-details-modal__top-bar'>
-          {displaySimiliar()}
-        </div>
+        </span>  
       </div>
+      <ul className='photo-details-modal__top-bar'>
+          <PhotoList photos={Object.values(photo.similar_photos)} setLikeHandler={setLikeHandler} state={state}/>
+        </ul> 
     </div>
   )
 };
