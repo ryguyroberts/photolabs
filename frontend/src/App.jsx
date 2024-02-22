@@ -7,20 +7,11 @@ import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 
 // initialState 
 const initialState = {
-  photos: [
-    { id: "1", like: false },
-    { id: "2", like: false },
-    { id: "3", like: false },
-    { id: "4", like: false },
-    { id: "5", like: false },
-    { id: "6", like: false },
-    { id: "7", like: false },
-    { id: "8", like: false },
-    { id: "9", like: false },
-    { id: "10", like: false },
-  ],
+  // Map mock photos
+  photos: photos.map((photo) => ({id: photo.id, like: false })),
   likedCount: 0,
-  isModalOpen: false
+  isModalOpen: false,
+  selectedPhoto: null
 }
 
 // reducer Function
@@ -46,10 +37,12 @@ const reducer = (state, action) => {
       likedCount: likedCount
     }
   }
+  // set module state open and close
   if (action.type === 'modal-toggle') {
     return {
       ...state,
-      isModalOpen: !state.isModalOpen
+      isModalOpen: !state.isModalOpen,
+      selectedPhoto: action.payload
     }
   }
   return state;
@@ -70,16 +63,18 @@ const App = () => {
     });
   }
 
-  const toggleModal = () => {
+  const toggleModal = (photoObj) => {
+    console.log();
     dispatch({
-      type: 'modal-toggle'
+      type: 'modal-toggle',
+      payload: photoObj
     })
   }
 
   return (
     <div className="App">
       <HomeRoute setLikeHandler={setLikeHandler} state={state} photos={photos} topics={topics} toggleModal={toggleModal}/>
-      {state.isModalOpen && <PhotoDetailsModal toggleModal={toggleModal}/>}
+      {state.isModalOpen && <PhotoDetailsModal toggleModal={toggleModal} photos={photos} state={state}/>}
     </div>
   );
 };

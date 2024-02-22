@@ -12,7 +12,7 @@ const PhotoListItem = ({photo, state, setLikeHandler, toggleModal}) => {
   return(
     <div id={id} className="photo-list__item" >
       <PhotoFavButton setLikeHandler={setLikeHandler} photo={photo} state={state}/>
-      <img onClick={() => {toggleModal()}} className="photo-list__image" src={regularUrl}/>
+      <img onClick={() => {toggleModal(photo)}} className="photo-list__image" src={regularUrl}/>
       <div className="photo-list__user-details">
         <img className="photo-list__user-profile" src={profile}/>
           <div className="photo-list__user-info">
