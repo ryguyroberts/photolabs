@@ -1,8 +1,9 @@
-import React, { useReducer } from 'react';
+import React, { useReducer, useState } from 'react';
 import './App.scss';
 import HomeRoute from 'routes/HomeRoute';
 import photos from './mocks/photos'
 import topics from 'mocks/topics';
+import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 
 // initialState 
 const initialState = {
@@ -18,7 +19,8 @@ const initialState = {
     { id: "9", like: false },
     { id: "10", like: false },
   ],
-  likedCount: 0
+  likedCount: 0,
+  isModalOpen: false
 }
 
 // reducer Function
@@ -44,34 +46,19 @@ const reducer = (state, action) => {
       likedCount: likedCount
     }
   }
+  if (action.type === 'modal-toggle') {
+    return {
+      ...state,
+      isModalOpen: !state.isModalOpen
+    }
+  }
   return state;
 };
-
-
-// old reducer
-// const reducer = (state, action) => {
-//   if (action.type === 'like-photo') {
-//     const { photoId } = action.payload;
-//     return {
-//       ...state,
-//         photos: state.photos.map((photo) => {
-//           if (photo.id === photoId) {
-//             return {
-//               ...photo,
-//               like: !photo.like
-//             };
-//           }
-//           return photo;
-//         })
-//     }
-//   }
-//   return state;
-// };
-
 
 // Note: Rendering a single component to build components in isolation
 const App = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Helpers to pass down
   const setLikeHandler = (photoId) => {
@@ -83,10 +70,16 @@ const App = () => {
     });
   }
 
+  const toggleModal = () => {
+    dispatch({
+      type: 'modal-toggle'
+    })
+  }
 
   return (
     <div className="App">
-      <HomeRoute setLikeHandler={setLikeHandler} state={state} photos={photos} topics={topics}/>
+      <HomeRoute setLikeHandler={setLikeHandler} state={state} photos={photos} topics={topics} toggleModal={toggleModal}/>
+      {state.isModalOpen && <PhotoDetailsModal/>}
     </div>
   );
 };
