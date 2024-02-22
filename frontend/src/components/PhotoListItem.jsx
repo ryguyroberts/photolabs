@@ -3,18 +3,23 @@ import "../styles/PhotoListItem.scss";
 import PhotoFavButton from "./PhotoFavButton";
 
 const PhotoListItem = ({photo, state, setLikeHandler}) => {
+  const { id, similar_photos } = photo;
+  const { full: regularUrl } = photo.urls;
+  const { username, profile } = photo.user;
+  const { city, country } = photo.location;
+
   /* Insert React */
   return(
-    <div id={photo.id} className="photo-list__item">
+    <div id={id} className="photo-list__item">
       <PhotoFavButton setLikeHandler={setLikeHandler} photo={photo} state={state}/>
-      <img className="photo-list__image" src={photo.urls.regular}/>
+      <img className="photo-list__image" src={regularUrl}/>
       <div className="photo-list__user-details">
-        <img className="photo-list__user-profile" src={photo.user.profile}/>
+        <img className="photo-list__user-profile" src={profile}/>
           <div className="photo-list__user-info">
-            {photo.user.username}
+            {username}
             <br />
             <span className="photo-list__user-location">
-              {photo.location.city}, {photo.location.country}
+              {city}, {country}
             </span>
           </div>
       </div>

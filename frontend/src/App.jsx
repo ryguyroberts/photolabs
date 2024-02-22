@@ -9,6 +9,13 @@ const initialState = {
     { id: "1", like: false },
     { id: "2", like: false },
     { id: "3", like: false },
+    { id: "4", like: false },
+    { id: "5", like: false },
+    { id: "6", like: false },
+    { id: "7", like: false },
+    { id: "8", like: false },
+    { id: "9", like: false },
+    { id: "10", like: false },
   ]
 }
 
