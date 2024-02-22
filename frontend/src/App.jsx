@@ -17,29 +17,56 @@ const initialState = {
     { id: "8", like: false },
     { id: "9", like: false },
     { id: "10", like: false },
-  ]
+  ],
+  likedCount: 0
 }
 
 // reducer Function
-
+// a newer BOLDER reducer
 const reducer = (state, action) => {
   if (action.type === 'like-photo') {
     const { photoId } = action.payload;
+    // First my usual like state update
+    const updatedPhotos = state.photos.map((photo) => {
+      if (photo.id === photoId) {
+        return {
+          ...photo,
+          like: !photo.like
+        };
+      }
+      return photo;
+    })
+    // filter for how many liked for likedCount state
+    const likedCount = updatedPhotos.filter(photo =>photo.like).length
     return {
       ...state,
-        photos: state.photos.map((photo) => {
-          if (photo.id === photoId) {
-            return {
-              ...photo,
-              like: !photo.like
-            };
-          }
-          return photo;
-        })
+      photos: updatedPhotos,
+      likedCount: likedCount
     }
   }
   return state;
 };
+
+
+// old reducer
+// const reducer = (state, action) => {
+//   if (action.type === 'like-photo') {
+//     const { photoId } = action.payload;
+//     return {
+//       ...state,
+//         photos: state.photos.map((photo) => {
+//           if (photo.id === photoId) {
+//             return {
+//               ...photo,
+//               like: !photo.like
+//             };
+//           }
+//           return photo;
+//         })
+//     }
+//   }
+//   return state;
+// };
 
 
 // Note: Rendering a single component to build components in isolation

@@ -7,7 +7,7 @@ import PhotoList from 'components/PhotoList';
 const HomeRoute = ({state, setLikeHandler, photos, topics}) => {
   return (
     <div className="home-route">
-      <TopNavigation topics={topics} />
+      <TopNavigation topics={topics} state={state}/>
       <PhotoList setLikeHandler={setLikeHandler} state={state} photos={photos}/>
     </div>
   );
