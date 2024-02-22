@@ -79,7 +79,7 @@ const App = () => {
   return (
     <div className="App">
       <HomeRoute setLikeHandler={setLikeHandler} state={state} photos={photos} topics={topics} toggleModal={toggleModal}/>
-      {state.isModalOpen && <PhotoDetailsModal/>}
+      {state.isModalOpen && <PhotoDetailsModal toggleModal={toggleModal}/>}
     </div>
   );
 };
