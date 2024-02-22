@@ -2,9 +2,8 @@ import React from "react";
 
 import "../styles/PhotoList.scss";
 import PhotoListItem from "./PhotoListItem";
-import photos from "../mocks/photos"
 
-const PhotoList = ({state, setLikeHandler}) => {
+const PhotoList = ({state, setLikeHandler, photos}) => {
 
   const listPhotoItems = (photoArr) => {
     return photoArr.map((photo) => {

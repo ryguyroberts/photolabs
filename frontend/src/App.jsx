@@ -1,7 +1,8 @@
 import React, { useReducer } from 'react';
 import './App.scss';
 import HomeRoute from 'routes/HomeRoute';
-
+import photos from './mocks/photos'
+import topics from 'mocks/topics';
 
 // initialState 
 const initialState = {
@@ -58,7 +59,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <HomeRoute setLikeHandler={setLikeHandler} state={state}/>
+      <HomeRoute setLikeHandler={setLikeHandler} state={state} photos={photos} topics={topics}/>
     </div>
   );
 };

@@ -4,11 +4,11 @@ import '../styles/HomeRoute.scss';
 import TopNavigation from 'components/TopNavigationBar';
 import PhotoList from 'components/PhotoList';
 
-const HomeRoute = ({state, setLikeHandler}) => {
+const HomeRoute = ({state, setLikeHandler, photos, topics}) => {
   return (
     <div className="home-route">
-      <TopNavigation />
-      <PhotoList setLikeHandler={setLikeHandler} state={state}/>
+      <TopNavigation topics={topics} />
+      <PhotoList setLikeHandler={setLikeHandler} state={state} photos={photos}/>
     </div>
   );
 };
