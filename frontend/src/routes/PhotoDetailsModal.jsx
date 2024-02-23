@@ -6,18 +6,18 @@ import '../styles/PhotoDetailsModal.scss'
 import closeSymbol from '../assets/closeSymbol.svg';
 import PhotoFavButton from 'components/PhotoFavButton';
 
-const PhotoDetailsModal = ({toggleModal, state, setLikeHandler, photos}) => {
+const PhotoDetailsModal = ({onClosePhotoDetailsModal, state, updateToFavPhotoIds, photos}) => {
 
   const photo = state.selectedPhoto
 
 
   return (
     <div className="photo-details-modal">
-      <button onClick={() => {toggleModal()}} className="photo-details-modal__close-button">
+      <button onClick={() => {onClosePhotoDetailsModal()}} className="photo-details-modal__close-button">
         <img src={closeSymbol} alt="close symbol" />
       </button>
       <div className='photo-details-modal__images'>
-        <PhotoFavButton setLikeHandler={setLikeHandler} photo={photo} state={state} />
+        <PhotoFavButton updateToFavPhotoIds={updateToFavPhotoIds} photo={photo} state={state} />
         <img className="photo-details-modal__image" src={photo.urls.full}/>
         <div className='photo-details-modal__photographer-details'> 
           <img className='photo-details-modal__photographer-profile' src={photo.user.profile}/>
@@ -35,26 +35,10 @@ const PhotoDetailsModal = ({toggleModal, state, setLikeHandler, photos}) => {
         </span>  
       </div>
       <ul className='photo-details-modal__top-bar'>
-          <PhotoList photos={Object.values(photo.similar_photos)} setLikeHandler={setLikeHandler} state={state}/>
+          <PhotoList photos={Object.values(photo.similar_photos)} updateToFavPhotoIds={updateToFavPhotoIds} state={state}/>
         </ul> 
     </div>
   )
 };
 
 export default PhotoDetailsModal;
-
-
-{/* <div id={id} className="photo-list__item" >
-<PhotoFavButton setLikeHandler={setLikeHandler} photo={photo} state={state}/>
-<img onClick={() => {toggleModal(photo)}} className="photo-list__image" src={regularUrl}/>
-<div className="photo-list__user-details">
-  <img className="photo-list__user-profile" src={profile}/>
-    <div className="photo-list__user-info">
-      {username}
-      <br />
-      <span className="photo-list__user-location">
-        {city}, {country}
-      </span>
-    </div>
-</div>
-</div> */}

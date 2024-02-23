@@ -38,6 +38,13 @@ const reducer = (state, action) => {
       selectedPhoto: action.payload
     }
   }
+
+  if (action.type === 'select-photo') {
+    return {
+      ...state,
+      selectedPhoto: action.payload
+    }
+  }
   return state;
 };
 
@@ -47,7 +54,7 @@ const useApplicationData = () => {
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Helpers to pass down
-  const setLikeHandler = (photoId) => {
+  const updateToFavPhotoIds = (photoId) => {
     dispatch({
       type: 'like-photo',
       payload: {
@@ -56,18 +63,23 @@ const useApplicationData = () => {
     });
   }
 
-  const toggleModal = (photoObj) => {
-    console.log();
+  const onClosePhotoDetailsModal = () => {
     dispatch({
-      type: 'modal-toggle',
-      payload: photoObj
+      type: 'modal-toggle'
     })
   }
 
+  const setPhotoSelected = (photoObj) => {
+    dispatch({
+      type: 'select-photo',
+      payload: photoObj
+    })
+  }
   return [
     state,
-    setLikeHandler,
-    toggleModal
+    updateToFavPhotoIds,
+    onClosePhotoDetailsModal,
+    setPhotoSelected
   ]
 };
 

@@ -4,11 +4,11 @@ import '../styles/HomeRoute.scss';
 import TopNavigation from 'components/TopNavigationBar';
 import PhotoList from 'components/PhotoList';
 
-const HomeRoute = ({state, setLikeHandler, photos, topics, toggleModal}) => {
+const HomeRoute = ({state, updateToFavPhotoIds, photos, topics, onClosePhotoDetailsModal, setPhotoSelected}) => {
   return (
     <div className="home-route">
       <TopNavigation topics={topics} state={state}/>
-      <PhotoList setLikeHandler={setLikeHandler} state={state} photos={photos} toggleModal={toggleModal}/>
+      <PhotoList updateToFavPhotoIds={updateToFavPhotoIds} state={state} photos={photos} onClosePhotoDetailsModal={onClosePhotoDetailsModal} setPhotoSelected={setPhotoSelected}/>
     </div>
   );
 };

@@ -2,7 +2,7 @@ import React from "react";
 import "../styles/PhotoListItem.scss";
 import PhotoFavButton from "./PhotoFavButton";
 
-const PhotoListItem = ({photo, state, setLikeHandler, toggleModal}) => {
+const PhotoListItem = ({photo, state, updateToFavPhotoIds, onClosePhotoDetailsModal, setPhotoSelected}) => {
   const { id, similar_photos } = photo;
   const { full: regularUrl } = photo.urls;
   const { username, profile } = photo.user;
@@ -11,8 +11,8 @@ const PhotoListItem = ({photo, state, setLikeHandler, toggleModal}) => {
   /* Insert React */
   return(
     <div id={id} className="photo-list__item" >
-      <PhotoFavButton setLikeHandler={setLikeHandler} photo={photo} state={state}/>
-      <img onClick={() => {toggleModal(photo)}} className="photo-list__image" src={regularUrl}/>
+      <PhotoFavButton updateToFavPhotoIds={updateToFavPhotoIds} photo={photo} state={state}/>
+      <img onClick={() => {onClosePhotoDetailsModal(); setPhotoSelected(photo)}} className="photo-list__image" src={regularUrl}/>
       <div className="photo-list__user-details">
         <img className="photo-list__user-profile" src={profile}/>
           <div className="photo-list__user-info">
