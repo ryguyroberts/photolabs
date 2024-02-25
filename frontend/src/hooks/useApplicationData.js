@@ -6,6 +6,7 @@ const TOGGLE_MODAL = 'modal-toggle';
 const SELECT_PHOTO = 'select-photo';
 const SET_PHOTO_DATA = 'set-photo-data';
 const SET_TOPIC_DATA = 'set-topic-data';
+const SET_TOPIC_ID = 'set-photo-topic-data';
 
 
 
@@ -16,7 +17,8 @@ const initialState = {
   isModalOpen: false,
   selectedPhoto: null,
   photoData: [],
-  topicData: []
+  topicData: [],
+  selectedTopicId: null
 }
 
 
@@ -63,18 +65,28 @@ const reducer = (state, action) => {
         ...state,
         photoData: action.payload
       }
-      
+
     case SET_TOPIC_DATA:
       return {
         ...state,
         topicData: action.payload
       }
+
+    case SET_TOPIC_ID:
+      return {
+        ...state,
+        selectedTopicId: action.payload
+      }
+      
     default:
       return state;
   }
 };
 
 const useApplicationData = () => {
+
+
+  const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
     fetch('/api/photos')
@@ -96,9 +108,24 @@ const useApplicationData = () => {
           payload: data
         })
       })
-  })
+  }, [])
 
-  const [state, dispatch] = useReducer(reducer, initialState)
+  useEffect(() => {
+
+    if(state.selectedTopicId) {
+      fetch(`/api/topics/photos/${state.selectedTopicId}`)
+      .then(res => res.json())
+      .then((data) => {
+        dispatch({
+          type: SET_PHOTO_DATA,
+          payload: data
+        })
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      })
+    }
+  }, [state.selectedTopicId])
 
 
   // Helpers to pass down
@@ -124,11 +151,19 @@ const useApplicationData = () => {
     })
   }
 
+  const setPhotosTopic = (topicId) => {
+    dispatch({
+      type: SET_TOPIC_ID,
+      payload: topicId
+    })
+    }
+
   return {
     state,
     updateToFavPhotoIds,
     onClosePhotoDetailsModal,
-    setPhotoSelected
+    setPhotoSelected,
+    setPhotosTopic 
   }
 };
 

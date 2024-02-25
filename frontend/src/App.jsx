@@ -1,14 +1,13 @@
 import React, { useReducer, useState } from 'react';
 import './App.scss';
 import HomeRoute from 'routes/HomeRoute';
-import topics from 'mocks/topics';
 import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 import useApplicationData from 'hooks/useApplicationData';
 
 // Note: Rendering a single component to build components in isolation
 const App = () => {
 
-  const { state, updateToFavPhotoIds, onClosePhotoDetailsModal, setPhotoSelected } = useApplicationData();
+  const { state, updateToFavPhotoIds, onClosePhotoDetailsModal, setPhotoSelected, setPhotosTopic } = useApplicationData();
   
   return (
     <div className="App">
@@ -16,8 +15,8 @@ const App = () => {
         state={state} 
         updateToFavPhotoIds={updateToFavPhotoIds} 
         onClosePhotoDetailsModal={onClosePhotoDetailsModal} 
-        setPhotoSelected={setPhotoSelected}
-        topics={topics} />
+        setPhotoSelected={setPhotoSelected} 
+        setPhotosTopic={setPhotosTopic}/>
       {state.isModalOpen && <PhotoDetailsModal
         state={state} 
         onClosePhotoDetailsModal={onClosePhotoDetailsModal} 

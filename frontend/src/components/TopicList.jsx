@@ -3,12 +3,12 @@ import React from "react";
 import "../styles/TopicList.scss";
 import TopicListItem from "./TopicListItem";
 
-const TopicList = ({state}) => {
+const TopicList = ({state, setPhotosTopic}) => {
 
   const createTopics = (topicArr) => {
     return topicArr.map((topic) => {
       return (
-        <TopicListItem key={topic.id} topic={topic}/>
+        <TopicListItem key={topic.id} topic={topic} setPhotosTopic={setPhotosTopic}/>
       );
     })
   }

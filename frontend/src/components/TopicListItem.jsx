@@ -3,9 +3,9 @@ import React from "react";
 import "../styles/TopicListItem.scss";
 
 
-const TopicListItem = ( {topic} ) => {
+const TopicListItem = ( {topic , setPhotosTopic} ) => {
   return (
-    <div className="topic-list__item">
+    <div onClick={() => {setPhotosTopic(topic.id)}}className="topic-list__item">
       <span>{topic.title}</span>
     </div>
   );
