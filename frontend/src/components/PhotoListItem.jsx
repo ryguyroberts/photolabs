@@ -12,7 +12,12 @@ const PhotoListItem = ({photo, state, updateToFavPhotoIds, onClosePhotoDetailsMo
   return(
     <div id={id} className="photo-list__item" >
       <PhotoFavButton updateToFavPhotoIds={updateToFavPhotoIds} photo={photo} state={state}/>
-      <img onClick={() => {onClosePhotoDetailsModal(); setPhotoSelected(photo)}} className="photo-list__image" src={regularUrl}/>
+      <img onClick={() => {
+        if (!state.isModalOpen) {
+          onClosePhotoDetailsModal();
+          setPhotoSelected(photo);
+        }
+      }} className="photo-list__image" src={regularUrl}/>
       <div className="photo-list__user-details">
         <img className="photo-list__user-profile" src={profile}/>
           <div className="photo-list__user-info">

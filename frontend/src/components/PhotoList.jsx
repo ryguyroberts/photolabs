@@ -3,7 +3,7 @@ import React from "react";
 import "../styles/PhotoList.scss";
 import PhotoListItem from "./PhotoListItem";
 
-const PhotoList = ({state, updateToFavPhotoIds, photos, onClosePhotoDetailsModal, setPhotoSelected}) => {
+const PhotoList = ({state, updateToFavPhotoIds, onClosePhotoDetailsModal, setPhotoSelected}) => {
 
   const listPhotoItems = (photoArr) => {
     return photoArr.map((photo) => {

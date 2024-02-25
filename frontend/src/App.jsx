@@ -1,7 +1,6 @@
 import React, { useReducer, useState } from 'react';
 import './App.scss';
 import HomeRoute from 'routes/HomeRoute';
-import photos from './mocks/photos'
 import topics from 'mocks/topics';
 import PhotoDetailsModal from 'routes/PhotoDetailsModal';
 import useApplicationData from 'hooks/useApplicationData';
@@ -18,8 +17,7 @@ const App = () => {
         updateToFavPhotoIds={updateToFavPhotoIds} 
         onClosePhotoDetailsModal={onClosePhotoDetailsModal} 
         setPhotoSelected={setPhotoSelected}
-        topics={topics}
-        photos={photos} />
+        topics={topics} />
       {state.isModalOpen && <PhotoDetailsModal
         state={state} 
         onClosePhotoDetailsModal={onClosePhotoDetailsModal} 

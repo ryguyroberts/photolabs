@@ -1,11 +1,11 @@
 import { useReducer, useEffect } from "react";
-import photos from "mocks/photos";
 
 // Define actions
 const LIKE_PHOTO = 'like-photo';
 const TOGGLE_MODAL = 'modal-toggle';
 const SELECT_PHOTO = 'select-photo';
 const SET_PHOTO_DATA = 'set-photo-data';
+const SET_TOPIC_DATA = 'set-topic-data';
 
 
 
@@ -28,8 +28,7 @@ const reducer = (state, action) => {
       const likePhotoIndex = state.photosLikes.indexOf(photoId);
       let updatedPhotoLikes;
       let likedCount = state.likedCount;
-      console.log(photoId)
-      console.log(likePhotoIndex);
+
       if (likePhotoIndex === -1) {
         //photo not liked add to array
         updatedPhotoLikes = [...state.photosLikes, photoId];
@@ -46,39 +45,29 @@ const reducer = (state, action) => {
         likedCount: likedCount
       }
 
-      // // First my usual like state update
-      // const updatedPhotos = state.photosLikes.map((photo) => {
-      //   if (photo.id === photoId) {
-      //     return {
-      //       ...photo,
-      //       like: !photo.like
-      //     };
-      //   }
-      //   return photo;
-      // })
-      // // filter for how many liked for likedCount state
-      // const likedCount = updatedPhotos.filter(photo =>photo.like).length
-      // return {
-      //   ...state,
-      //   photosLikes: updatedPhotos,
-      //   likedCount: likedCount
-      // };
-
     case TOGGLE_MODAL:
       return {
         ...state,
         isModalOpen: !state.isModalOpen,
         selectedPhoto: action.payload
       };
+
     case SELECT_PHOTO:
       return {
         ...state,
         selectedPhoto: action.payload
       };
+
     case SET_PHOTO_DATA:
       return {
         ...state,
         photoData: action.payload
+      }
+      
+    case SET_TOPIC_DATA:
+      return {
+        ...state,
+        topicData: action.payload
       }
     default:
       return state;
@@ -98,12 +87,22 @@ const useApplicationData = () => {
       })
   }, [])
 
+  useEffect(() => {
+    fetch('/api/topics')
+      .then(res => res.json())
+      .then((data) => {
+        dispatch({
+          type: SET_TOPIC_DATA,
+          payload: data
+        })
+      })
+  })
+
   const [state, dispatch] = useReducer(reducer, initialState)
 
 
   // Helpers to pass down
   const updateToFavPhotoIds = (photoId) => {
-    console.log("update fav");
     dispatch({
       type:  LIKE_PHOTO,
       payload: {
