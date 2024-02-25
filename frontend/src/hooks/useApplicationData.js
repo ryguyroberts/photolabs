@@ -89,26 +89,22 @@ const useApplicationData = () => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
   useEffect(() => {
-    fetch('/api/photos')
-      .then(res => res.json())
-      .then((data) => {
+    Promise.all([fetch('/api/photos'), fetch('/api/topics')])
+      .then(responses => Promise.all(responses.map(res => res.json())))
+      .then(([photosData, topicsData]) => {
         dispatch({
           type: SET_PHOTO_DATA,
-          payload: data
-        })
-      })
-  }, [])
-
-  useEffect(() => {
-    fetch('/api/topics')
-      .then(res => res.json())
-      .then((data) => {
+          payload: photosData
+        });
         dispatch({
           type: SET_TOPIC_DATA,
-          payload: data
-        })
+          payload: topicsData
+        });
       })
-  }, [])
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
 
   useEffect(() => {
 
