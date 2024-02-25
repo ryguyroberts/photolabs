@@ -1,6 +1,13 @@
 import { useReducer } from "react";
 import photos from "mocks/photos";
 
+// Define actions
+const LIKE_PHOTO = 'like-photo';
+const TOGGLE_MODAL = 'modal-toggle';
+const SELECT_PHOTO = 'select-photo';
+
+
+
 const initialState = {
   // Map mock photos
   photos: photos.map((photo) => ({id: photo.id, like: false })),
@@ -10,42 +17,40 @@ const initialState = {
 }
 
 const reducer = (state, action) => {
-  if (action.type === 'like-photo') {
-    const { photoId } = action.payload;
-    // First my usual like state update
-    const updatedPhotos = state.photos.map((photo) => {
-      if (photo.id === photoId) {
-        return {
-          ...photo,
-          like: !photo.like
-        };
-      }
-      return photo;
-    })
-    // filter for how many liked for likedCount state
-    const likedCount = updatedPhotos.filter(photo =>photo.like).length
-    return {
-      ...state,
-      photos: updatedPhotos,
-      likedCount: likedCount
-    }
+  switch (action.type) {
+    case LIKE_PHOTO:
+      const { photoId } = action.payload;
+      // First my usual like state update
+      const updatedPhotos = state.photos.map((photo) => {
+        if (photo.id === photoId) {
+          return {
+            ...photo,
+            like: !photo.like
+          };
+        }
+        return photo;
+      })
+      // filter for how many liked for likedCount state
+      const likedCount = updatedPhotos.filter(photo =>photo.like).length
+      return {
+        ...state,
+        photos: updatedPhotos,
+        likedCount: likedCount
+      };
+    case TOGGLE_MODAL:
+      return {
+        ...state,
+        isModalOpen: !state.isModalOpen,
+        selectedPhoto: action.payload
+      };
+    case SELECT_PHOTO:
+      return {
+        ...state,
+        selectedPhoto: action.payload
+      };
+    default:
+      return state;
   }
-  // set module state open and close
-  if (action.type === 'modal-toggle') {
-    return {
-      ...state,
-      isModalOpen: !state.isModalOpen,
-      selectedPhoto: action.payload
-    }
-  }
-
-  if (action.type === 'select-photo') {
-    return {
-      ...state,
-      selectedPhoto: action.payload
-    }
-  }
-  return state;
 };
 
 const useApplicationData = () => {
@@ -56,7 +61,7 @@ const useApplicationData = () => {
   // Helpers to pass down
   const updateToFavPhotoIds = (photoId) => {
     dispatch({
-      type: 'like-photo',
+      type:  LIKE_PHOTO,
       payload: {
         photoId: photoId
       }
@@ -65,13 +70,13 @@ const useApplicationData = () => {
 
   const onClosePhotoDetailsModal = () => {
     dispatch({
-      type: 'modal-toggle'
+      type: TOGGLE_MODAL
     })
   }
 
   const setPhotoSelected = (photoObj) => {
     dispatch({
-      type: 'select-photo',
+      type: SELECT_PHOTO,
       payload: photoObj
     })
   }

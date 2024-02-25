@@ -15,7 +15,6 @@ const App = () => {
     <div className="App">
       <HomeRoute updateToFavPhotoIds={updateToFavPhotoIds} state={state} photos={photos} topics={topics} onClosePhotoDetailsModal={onClosePhotoDetailsModal} setPhotoSelected={setPhotoSelected}/>
       {state.isModalOpen && <PhotoDetailsModal onClosePhotoDetailsModal={onClosePhotoDetailsModal} photos={photos} state={state} updateToFavPhotoIds={updateToFavPhotoIds}/>}
-      {/* {state.isModalOpen && <PhotoDetailsModal {...useApplicationData()}/>} */}
     </div>
   );
 };
