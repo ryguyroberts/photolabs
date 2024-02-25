@@ -9,7 +9,8 @@ function PhotoFavButton({photo, state, updateToFavPhotoIds}) {
   return (
     <div onClick={() => {updateToFavPhotoIds(photo.id)}} className="photo-list__fav-icon">
       <div className="photo-list__fav-icon-svg">
-        <FavIcon selected={state.photos[photo.id -1].like}/>
+        {/* <FavIcon selected={state.photosLikes[photo.id -1].like}/> */}
+        <FavIcon />
       </div>
     </div>
   );

@@ -1,14 +1,12 @@
 import React from 'react';
 import PhotoList from 'components/PhotoList';
-import PhotoListItem from 'components/PhotoListItem';
-
 import '../styles/PhotoDetailsModal.scss'
 import closeSymbol from '../assets/closeSymbol.svg';
 import PhotoFavButton from 'components/PhotoFavButton';
 
-const PhotoDetailsModal = ({onClosePhotoDetailsModal, state, updateToFavPhotoIds, photos}) => {
+const PhotoDetailsModal = ({state, onClosePhotoDetailsModal, updateToFavPhotoIds}) => {
 
-  const photo = state.selectedPhoto
+  const photo = state.selectedPhoto;
 
 
   return (

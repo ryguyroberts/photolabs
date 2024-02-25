@@ -17,7 +17,7 @@ const PhotoList = ({state, updateToFavPhotoIds, photos, onClosePhotoDetailsModal
 
   return (
     <ul className="photo-list">
-      {listPhotoItems(photos)}
+      {listPhotoItems(state.photoData)}
     </ul>
   );
 };
