@@ -7,6 +7,7 @@ const SELECT_PHOTO = 'select-photo';
 const SET_PHOTO_DATA = 'set-photo-data';
 const SET_TOPIC_DATA = 'set-topic-data';
 const SET_TOPIC_ID = 'set-photo-topic-data';
+const INITIALIZE_LIKED_PHOTOS = 'initialize-liked-photos';
 
 
 // Set my initial states
@@ -35,7 +36,7 @@ const reducer = (state, action) => {
       let likedCount = state.likedCount;
 
       if (likePhotoIndex === -1) {
-        //photo not liked add to array
+        //photo not liked add to array\
         updatedPhotoLikes = [...state.photosLikes, photoId];
         likedCount++;
       } else {
@@ -44,12 +45,26 @@ const reducer = (state, action) => {
         likedCount--;
       };
 
+      // Set local browser for likes to persist between refresh
+      localStorage.setItem('likedPhotos', JSON.stringify(updatedPhotoLikes));
+   
+      
       return {
         ...state,
         photosLikes: updatedPhotoLikes,
         likedCount: likedCount
       };
 
+    case INITIALIZE_LIKED_PHOTOS:
+      const likedPhotos = JSON.parse(localStorage.getItem('likedPhotos'));
+      if (likedPhotos) {
+        return {
+          ...state,
+          photosLikes: likedPhotos,
+          likedCount: likedPhotos.length
+        }
+      }
+  
     // Toggle modal state true/false (open/close)
     case TOGGLE_MODAL:
       return {
@@ -111,12 +126,16 @@ const useApplicationData = () => {
           type: SET_TOPIC_DATA,
           payload: topicsData
         });
+        dispatch({ type: INITIALIZE_LIKED_PHOTOS });
       })
       .catch(error => {
         console.error("Error fetching data:", error);
       });
+
+     
   }, []); // Run once on component load
 
+  // Side effect that watches for topic ID change
   useEffect(() => {
     // Get request to with corresponding topic id.
     if(state.selectedTopicId) {
@@ -134,6 +153,8 @@ const useApplicationData = () => {
       })
     };
   }, [state.selectedTopicId]) // Reload when topic id state gets set (user clicking topic button).
+
+
 
 
   // Helpers that use reducer
