@@ -7,18 +7,18 @@ const SELECT_PHOTO = 'select-photo';
 const SET_PHOTO_DATA = 'set-photo-data';
 const SET_TOPIC_DATA = 'set-topic-data';
 const SET_TOPIC_ID = 'set-photo-topic-data';
-const INITIALIZE_LIKED_PHOTOS = 'initialize-liked-photos';
 
 
 // Set my initial states
+const likedPhotos = JSON.parse(localStorage.getItem('likedPhotos')) || [];
 const initialState = {
-  photosLikes: [],
-  likedCount: 0,
+  photosLikes: likedPhotos || [],
+  likedCount: likedPhotos.length,
   isModalOpen: false,
   selectedPhoto: null,
   photoData: [],
   topicData: [],
-  selectedTopicId: null
+  selectedTopicId: JSON.parse(localStorage.getItem('topicId')) || null
 }
 
 
@@ -55,16 +55,7 @@ const reducer = (state, action) => {
         likedCount: likedCount
       };
 
-    case INITIALIZE_LIKED_PHOTOS:
-      const likedPhotos = JSON.parse(localStorage.getItem('likedPhotos'));
-      if (likedPhotos) {
-        return {
-          ...state,
-          photosLikes: likedPhotos,
-          likedCount: likedPhotos.length
-        }
-      }
-  
+ 
     // Toggle modal state true/false (open/close)
     case TOGGLE_MODAL:
       return {
@@ -96,6 +87,8 @@ const reducer = (state, action) => {
 
     // set topic id state to know what Get request to make
     case SET_TOPIC_ID:
+      localStorage.setItem('topicId', JSON.stringify(action.payload));
+
       return {
         ...state,
         selectedTopicId: action.payload
@@ -113,49 +106,57 @@ const useApplicationData = () => {
 
   // Initial data load side effect
   useEffect(() => {
-    // Fetch to both APIs
-    Promise.all([fetch('/api/photos'), fetch('/api/topics')])
-      .then(responses => Promise.all(responses.map(res => res.json())))
-      // set data in the state
-      .then(([photosData, topicsData]) => {
-        dispatch({
-          type: SET_PHOTO_DATA,
-          payload: photosData
-        });
+    // Fetch topics and initial photo data at same time
+    Promise.all([
+      fetch('/api/topics').then(response => response.json()),
+      fetch('/api/photos').then(response => response.json())
+    ])
+      .then(([topicsData, photosData]) => {
         dispatch({
           type: SET_TOPIC_DATA,
           payload: topicsData
         });
-        dispatch({ type: INITIALIZE_LIKED_PHOTOS });
+
+        // Check if a topic is already selected
+        if (state.selectedTopicId === null) {
+          dispatch({
+            type: SET_PHOTO_DATA,
+            payload: photosData
+          });
+        }
       })
       .catch(error => {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching initial data:", error);
       });
+  }, []); // Run whenever selectedTopicId changes
 
-     
-  }, []); // Run once on component load
+  
 
   // Side effect that watches for topic ID change
   useEffect(() => {
-    // Get request to with corresponding topic id.
-    if(state.selectedTopicId) {
-      fetch(`/api/topics/photos/${state.selectedTopicId}`)
-      .then(res => res.json())
-      // same dispatch as initial photo data setup, replaces photos with filtered list
-      .then((data) => {
-        dispatch({
-          type: SET_PHOTO_DATA,
-          payload: data
+    // Generic fetchdata for both URL requests
+    const fetchData = (url) => {
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          dispatch({
+            type: SET_PHOTO_DATA,
+            payload: data
+          });
         })
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      })
+        .catch(error => {
+          console.error("Error fetching data:", error);
+        });
     };
-  }, [state.selectedTopicId]) // Reload when topic id state gets set (user clicking topic button).
-
-
-
+  
+    if (state.selectedTopicId !== null) {
+      // If topic ID is selected, fetch data for that topic
+      fetchData(`/api/topics/photos/${state.selectedTopicId}`);
+    } else {
+      // If no topic ID is selected, fetch regular photo data
+      fetchData('/api/photos');
+    }
+  }, [state.selectedTopicId]);
 
   // Helpers that use reducer
 
