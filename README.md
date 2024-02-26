@@ -4,10 +4,11 @@ The PhotoLabs project for the Web Development React course programming.
 # Photolabs
 
 ## Front Page
-
+!["Front Page"](https://github.com/ryguyroberts/photolabs/blob/main/docs/home%20page.png?raw=true)
 ## Modal
-
+!["Modal"](https://github.com/ryguyroberts/photolabs/blob/main/docs/modal.png?raw=true)
 ## Liking Photos
+!["Liking Photos"](https://github.com/ryguyroberts/photolabs/blob/main/docs/photos%20liked.png?raw=true)
 
 # Dependencies
 
