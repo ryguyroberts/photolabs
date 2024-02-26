@@ -22,11 +22,11 @@ const initialState = {
 }
 
 
-
+// One reducer to rule them all.
 const reducer = (state, action) => {
 
   switch (action.type) {
-  
+   
     // update photoslikes array if photo ID not inside, remove if inside
     case LIKE_PHOTO:
       const { photoId } = action.payload;
@@ -47,8 +47,7 @@ const reducer = (state, action) => {
 
       // Set local browser for likes to persist between refresh
       localStorage.setItem('likedPhotos', JSON.stringify(updatedPhotoLikes));
-   
-      
+         
       return {
         ...state,
         photosLikes: updatedPhotoLikes,
@@ -87,6 +86,7 @@ const reducer = (state, action) => {
 
     // set topic id state to know what Get request to make
     case SET_TOPIC_ID:
+      // Set topic ID in local storage for refresh
       localStorage.setItem('topicId', JSON.stringify(action.payload));
 
       return {
@@ -117,7 +117,7 @@ const useApplicationData = () => {
           payload: topicsData
         });
 
-        // Check if a topic is already selected
+        // Check if a topic is already selected 
         if (state.selectedTopicId === null) {
           dispatch({
             type: SET_PHOTO_DATA,
@@ -128,9 +128,7 @@ const useApplicationData = () => {
       .catch(error => {
         console.error("Error fetching initial data:", error);
       });
-  }, []); // Run whenever selectedTopicId changes
-
-  
+  }, []); // Run on Initial load only
 
   // Side effect that watches for topic ID change
   useEffect(() => {
@@ -156,7 +154,7 @@ const useApplicationData = () => {
       // If no topic ID is selected, fetch regular photo data
       fetchData('/api/photos');
     }
-  }, [state.selectedTopicId]);
+}, [state.selectedTopicId]);
 
   // Helpers that use reducer
 
