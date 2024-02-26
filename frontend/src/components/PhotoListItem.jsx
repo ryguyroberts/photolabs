@@ -3,15 +3,16 @@ import "../styles/PhotoListItem.scss";
 import PhotoFavButton from "./PhotoFavButton";
 
 const PhotoListItem = ({photo, state, updateToFavPhotoIds, onClosePhotoDetailsModal, setPhotoSelected}) => {
-  const { id, similar_photos } = photo;
+  // Defind vars from photo
+  const { id } = photo;
   const { full: regularUrl } = photo.urls;
   const { username, profile } = photo.user;
   const { city, country } = photo.location;
 
-  /* Insert React */
   return(
     <div id={id} className="photo-list__item" >
       <PhotoFavButton updateToFavPhotoIds={updateToFavPhotoIds} photo={photo} state={state}/>
+      {/* make sure img doesn't try to open itself or anything if modal is open */}
       <img onClick={() => {
         if (!state.isModalOpen) {
           onClosePhotoDetailsModal();

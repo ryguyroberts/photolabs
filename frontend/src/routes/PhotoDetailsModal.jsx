@@ -10,6 +10,7 @@ const PhotoDetailsModal = ({state, onClosePhotoDetailsModal, updateToFavPhotoIds
 
 
   return (
+    // Main modal photo layout
     <div className="photo-details-modal">
       <button onClick={() => {onClosePhotoDetailsModal()}} className="photo-details-modal__close-button">
         <img src={closeSymbol} alt="close symbol" />
@@ -32,6 +33,7 @@ const PhotoDetailsModal = ({state, onClosePhotoDetailsModal, updateToFavPhotoIds
           Similiar Photos
         </span>  
       </div>
+      {/* similiar photos list */}
       <ul className='photo-details-modal__top-bar'>
           <PhotoList photos={Object.values(photo.similar_photos)} updateToFavPhotoIds={updateToFavPhotoIds} state={state}/>
         </ul> 

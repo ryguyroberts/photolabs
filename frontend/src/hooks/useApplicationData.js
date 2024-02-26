@@ -9,9 +9,8 @@ const SET_TOPIC_DATA = 'set-topic-data';
 const SET_TOPIC_ID = 'set-photo-topic-data';
 
 
-
+// Set my initial states
 const initialState = {
-  // Map mock photos
   photosLikes: [],
   likedCount: 0,
   isModalOpen: false,
@@ -25,10 +24,13 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+
+    // update photoslikes array if photo ID not inside, remove if inside
     case LIKE_PHOTO:
       const { photoId } = action.payload;
       const likePhotoIndex = state.photosLikes.indexOf(photoId);
       let updatedPhotoLikes;
+      // Keep track of amount of likes 
       let likedCount = state.likedCount;
 
       if (likePhotoIndex === -1) {
@@ -47,6 +49,7 @@ const reducer = (state, action) => {
         likedCount: likedCount
       }
 
+    // Toggle modal state true/false (open/close)
     case TOGGLE_MODAL:
       return {
         ...state,
@@ -54,24 +57,28 @@ const reducer = (state, action) => {
         selectedPhoto: action.payload
       };
 
+    // set selected photo state to whole photo obj
     case SELECT_PHOTO:
       return {
         ...state,
         selectedPhoto: action.payload
       };
 
+    // initial photo data load
     case SET_PHOTO_DATA:
       return {
         ...state,
         photoData: action.payload
       }
 
+    // initial topic data load
     case SET_TOPIC_DATA:
       return {
         ...state,
         topicData: action.payload
       }
 
+    // set topic id state to know what Get request to make
     case SET_TOPIC_ID:
       return {
         ...state,
@@ -88,9 +95,12 @@ const useApplicationData = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState)
 
+  // Initial data load side effect
   useEffect(() => {
+    // Fetch to both APIs
     Promise.all([fetch('/api/photos'), fetch('/api/topics')])
       .then(responses => Promise.all(responses.map(res => res.json())))
+      // set data in the state
       .then(([photosData, topicsData]) => {
         dispatch({
           type: SET_PHOTO_DATA,
@@ -104,13 +114,14 @@ const useApplicationData = () => {
       .catch(error => {
         console.error("Error fetching data:", error);
       });
-  }, []);
+  }, []); // Run once on component load
 
   useEffect(() => {
-
+    // Get request to with corresponding topic id.
     if(state.selectedTopicId) {
       fetch(`/api/topics/photos/${state.selectedTopicId}`)
       .then(res => res.json())
+      // same dispatch as initial photo data setup, replaces photos with filtered list
       .then((data) => {
         dispatch({
           type: SET_PHOTO_DATA,
@@ -121,10 +132,12 @@ const useApplicationData = () => {
         console.error("Error fetching data:", error);
       })
     }
-  }, [state.selectedTopicId])
+  }, [state.selectedTopicId]) // Reload when topic id state gets set (user clicking topic button).
 
 
-  // Helpers to pass down
+  // Helpers that use reducer
+
+  // Update the photosLikes state array
   const updateToFavPhotoIds = (photoId) => {
     dispatch({
       type:  LIKE_PHOTO,
@@ -134,12 +147,14 @@ const useApplicationData = () => {
     });
   }
 
+  // Open/close Modal
   const onClosePhotoDetailsModal = () => {
     dispatch({
       type: TOGGLE_MODAL
     })
   }
 
+  // Set photo obj state when modal opened
   const setPhotoSelected = (photoObj) => {
     dispatch({
       type: SELECT_PHOTO,
@@ -147,6 +162,7 @@ const useApplicationData = () => {
     })
   }
 
+  // Set topic id state when clicking topic button
   const setPhotosTopic = (topicId) => {
     dispatch({
       type: SET_TOPIC_ID,

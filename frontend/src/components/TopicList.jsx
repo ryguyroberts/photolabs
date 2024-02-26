@@ -4,7 +4,8 @@ import "../styles/TopicList.scss";
 import TopicListItem from "./TopicListItem";
 
 const TopicList = ({state, setPhotosTopic}) => {
-
+  
+  // Map each toppping passing correct props
   const createTopics = (topicArr) => {
     return topicArr.map((topic) => {
       return (
