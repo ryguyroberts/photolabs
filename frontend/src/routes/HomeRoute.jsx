@@ -13,7 +13,8 @@ const HomeRoute = ({state, updateToFavPhotoIds, onClosePhotoDetailsModal, setPho
         updateToFavPhotoIds={updateToFavPhotoIds} 
         state={state} 
         onClosePhotoDetailsModal={onClosePhotoDetailsModal} 
-        setPhotoSelected={setPhotoSelected}/>
+        setPhotoSelected={setPhotoSelected}
+        photos={state.photoData}/>
     </div>
   );
 };
