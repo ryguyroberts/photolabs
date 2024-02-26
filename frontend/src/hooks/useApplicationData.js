@@ -42,13 +42,13 @@ const reducer = (state, action) => {
         //photo liked get it outta array!
         updatedPhotoLikes = state.photosLikes.filter(id => id !== photoId);
         likedCount--;
-      }
+      };
 
       return {
         ...state,
         photosLikes: updatedPhotoLikes,
         likedCount: likedCount
-      }
+      };
 
     // Toggle modal state true/false (open/close)
     case TOGGLE_MODAL:
@@ -70,25 +70,25 @@ const reducer = (state, action) => {
       return {
         ...state,
         photoData: action.payload
-      }
+      };
 
     // initial topic data load
     case SET_TOPIC_DATA:
       return {
         ...state,
         topicData: action.payload
-      }
+      };
 
     // set topic id state to know what Get request to make
     case SET_TOPIC_ID:
       return {
         ...state,
         selectedTopicId: action.payload
-      }
+      };
       
     default:
       return state;
-  }
+  };
 };
 
 const useApplicationData = () => {
@@ -132,7 +132,7 @@ const useApplicationData = () => {
       .catch(error => {
         console.error("Error fetching data:", error);
       })
-    }
+    };
   }, [state.selectedTopicId]) // Reload when topic id state gets set (user clicking topic button).
 
 
@@ -146,30 +146,30 @@ const useApplicationData = () => {
         photoId: photoId
       }
     });
-  }
+  };
 
   // Open/close Modal
   const onClosePhotoDetailsModal = () => {
     dispatch({
       type: TOGGLE_MODAL
-    })
-  }
+    });
+  };
 
   // Set photo obj state when modal opened
   const setPhotoSelected = (photoObj) => {
     dispatch({
       type: SELECT_PHOTO,
       payload: photoObj
-    })
-  }
+    });
+  };
 
   // Set topic id state when clicking topic button
   const setPhotosTopic = (topicId) => {
     dispatch({
       type: SET_TOPIC_ID,
       payload: topicId
-    })
-    }
+    });
+  };
 
   return {
     state,
@@ -177,7 +177,7 @@ const useApplicationData = () => {
     onClosePhotoDetailsModal,
     setPhotoSelected,
     setPhotosTopic 
-  }
+  };
 };
 
 export default useApplicationData;
