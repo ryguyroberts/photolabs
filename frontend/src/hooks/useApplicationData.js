@@ -7,6 +7,7 @@ const SELECT_PHOTO = 'select-photo';
 const SET_PHOTO_DATA = 'set-photo-data';
 const SET_TOPIC_DATA = 'set-topic-data';
 const SET_TOPIC_ID = 'set-photo-topic-data';
+const TOGGLE_LIKED_MODAL ='modal-liked-toggle';
 
 
 // Set my initial states
@@ -15,6 +16,7 @@ const initialState = {
   photosLikes: likedPhotos || [],
   likedCount: likedPhotos.length,
   isModalOpen: false,
+  isLikedModalOpen: false,
   selectedPhoto: null,
   photoData: [],
   topicData: [],
@@ -60,7 +62,13 @@ const reducer = (state, action) => {
       return {
         ...state,
         isModalOpen: !state.isModalOpen,
-        selectedPhoto: action.payload
+      };
+
+    // Toggle modal for liked photos true/false
+    case TOGGLE_LIKED_MODAL:
+      return {
+        ...state,
+        isLikedModalOpen: !state.isLikedModalOpen
       };
 
     // set selected photo state to whole photo obj
@@ -191,12 +199,20 @@ const useApplicationData = () => {
     });
   };
 
+  // Toggle liked photos
+  const toggleLikedPhotosModal = () => {
+    dispatch({
+      type: TOGGLE_LIKED_MODAL
+    });
+  };
+
   return {
     state,
     updateToFavPhotoIds,
     onClosePhotoDetailsModal,
     setPhotoSelected,
-    setPhotosTopic 
+    setPhotosTopic,
+    toggleLikedPhotosModal
   };
 };
 
