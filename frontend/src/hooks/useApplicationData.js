@@ -23,8 +23,9 @@ const initialState = {
 
 
 const reducer = (state, action) => {
-  switch (action.type) {
 
+  switch (action.type) {
+  
     // update photoslikes array if photo ID not inside, remove if inside
     case LIKE_PHOTO:
       const { photoId } = action.payload;
